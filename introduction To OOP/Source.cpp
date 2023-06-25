@@ -2,6 +2,8 @@
 
 using namespace std;
 
+
+
 #define delimiter "\n----------------------------------------------\n"
 
 class Point
@@ -79,7 +81,19 @@ public:
 		y++;
 		return old;
 	}
-
+	Point& operator --()//префиксный декремент
+	{
+		x--;
+		y--;
+		return *this;
+	}
+	Point& operator --(int)//постфиксный декремент
+	{
+		Point old = *this;//сохраняем начальное значение
+		x--;
+		y--;
+		return old;
+	}
 
 	//арифметические операторы перегружаются за классом!!
 	Point& operator+=(const Point& other)
@@ -88,6 +102,31 @@ public:
 		this->y += other.y;
 		return *this;
 	}
+	Point& operator-=(const Point& other)
+	{
+		this->x -= other.get_x();
+		this->y -= other.get_y();
+		return *this;
+	}
+	Point& operator*=(const Point& other)
+	{
+		this->x *= other.get_x();
+		this->y *= other.get_y();
+		return *this;
+	}
+	Point& operator/=(const Point& other)
+	{
+		this->x /= other.get_x();
+		this->y /= other.get_y();
+		return *this;
+	}
+	Point& operator%=(const Point& other)
+	{
+			this->x %= other.get_x(),
+			this->y %= other.get_y()
+		return *this;
+	}
+
 
 
 	//				Methods:
@@ -132,6 +171,39 @@ Point operator+(const Point& left, const Point& right)
 		left.get_y() + right.get_y()
 	);
 };
+Point operator-(const Point& left, const Point& right)
+{
+	return Point
+	(
+		left.get_x() - right.get_x(),
+		left.get_y() - right.get_y()
+	);
+};
+Point operator*(const Point& left, const Point& right)
+{
+	return Point
+		(
+			left.get_x() * right.get_x(),
+			left.get_y() * right.get_y()
+		);
+};
+Point operator/(const Point& left, const Point& right)
+{
+	return Point
+		(
+			left.get_x() / right.get_x(),
+			left.get_y() / right.get_y()
+		);
+};
+//Point operator%(const Point& left, const Point& right)
+//{
+//	return Point
+//	(
+//		left.get_x() % right.get_x(),
+//		left.get_y() % right.get_y()
+//	);
+//};
+
 void operator<<(ostream& os, const Point& obj)
 {
 	os << "X= " << obj.get_x() << "\tY= " << obj.get_y();
@@ -226,9 +298,9 @@ void main()
 	Point B(7, 8);
 	B.print();
 
-	A += B;
+	A/=B;
 	A.print();
-	cout << typeid(cout).name() << endl;
+	cout << typeid(cout).name() << endl << endl;
 	cout << A;
 
 }
