@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 
 using namespace std;
 
@@ -29,9 +29,9 @@ public:
 	
 	/*Point()
 	{
-		x = y = double();	// type() - это значение по умолчанию для заданного типа
-							// т.о. мы якобы вызываем конструктор по умолчанию для заданного типа
-		cout << "DefaultConstructor: \t\t" << this << endl;//всегда можем определить адрес объекта
+		x = y = double();	// type() - СЌС‚Рѕ Р·РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґР»СЏ Р·Р°РґР°РЅРЅРѕРіРѕ С‚РёРїР°
+							// С‚.Рѕ. РјС‹ СЏРєРѕР±С‹ РІС‹Р·С‹РІР°РµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґР»СЏ Р·Р°РґР°РЅРЅРѕРіРѕ С‚РёРїР°
+		cout << "DefaultConstructor: \t\t" << this << endl;//РІСЃРµРіРґР° РјРѕР¶РµРј РѕРїСЂРµРґРµР»РёС‚СЊ Р°РґСЂРµСЃ РѕР±СЉРµРєС‚Р°
 	}*/
 
 	/*Point(double x)
@@ -41,7 +41,7 @@ public:
 		cout << "1ArgConstructor: \t"<<this<<endl;
 	}*/
 	
-	Point(double x=0,double y=0) //более универсальный
+	Point(double x=0,double y=0) //Р±РѕР»РµРµ СѓРЅРёРІРµСЂСЃР°Р»СЊРЅС‹Р№
 	{
 		this->x = x;
 		this->y = y;
@@ -68,7 +68,7 @@ public:
 	}
 
 	//				Methods:
-	double distance(const Point& other)const //константный метод который не изменяет объект для которого вызывается
+	double distance(const Point& other)const //РєРѕРЅСЃС‚Р°РЅС‚РЅС‹Р№ РјРµС‚РѕРґ РєРѕС‚РѕСЂС‹Р№ РЅРµ РёР·РјРµРЅСЏРµС‚ РѕР±СЉРµРєС‚ РґР»СЏ РєРѕС‚РѕСЂРѕРіРѕ РІС‹Р·С‹РІР°РµС‚СЃСЏ
 	{
 		double x_distance = this->x - other.x;
 		double y_distance = this->y - other.y;
@@ -82,7 +82,7 @@ public:
 	}
 };
 
-double distance(const Point& A, const Point& B) //передаче по константной ссылке,чтобы не изменить значение
+double distance(const Point& A, const Point& B) //РїРµСЂРµРґР°С‡Рµ РїРѕ РєРѕРЅСЃС‚Р°РЅС‚РЅРѕР№ СЃСЃС‹Р»РєРµ,С‡С‚РѕР±С‹ РЅРµ РёР·РјРµРЅРёС‚СЊ Р·РЅР°С‡РµРЅРёРµ
 {
 	
 	double x_distance = A.get_x() - B.get_x();
@@ -101,10 +101,10 @@ void main()
 	setlocale(0, "");
 #ifdef STRUCT_POINT
 	//type name;
-	int a;//объявление переменной 'а' типа int
-	Point A;// объявление переменной 'А' типа Point
-	//создание объекта 'A'  структуры Point
-	//создание экземпляра 'А' структуры Point
+	int a;//РѕР±СЉСЏРІР»РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ 'Р°' С‚РёРїР° int
+	Point A;// РѕР±СЉСЏРІР»РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ 'Рђ' С‚РёРїР° Point
+	//СЃРѕР·РґР°РЅРёРµ РѕР±СЉРµРєС‚Р° 'A'  СЃС‚СЂСѓРєС‚СѓСЂС‹ Point
+	//СЃРѕР·РґР°РЅРёРµ СЌРєР·РµРјРїР»СЏСЂР° 'Рђ' СЃС‚СЂСѓРєС‚СѓСЂС‹ Point
 	A.x = 2;
 	A.y = 3;
 	cout << A.x << "\t" << A.y << endl;
@@ -125,13 +125,13 @@ void main()
 	cout << "B:\t " << B.get_x() << "\t" << B.get_y() << endl;
 	cout << delimiter << endl;
 
-	cout << "расстояние от точки 'А' до точки 'Б':\t " << A.distance(B) << endl;
+	cout << "СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё 'Рђ' РґРѕ С‚РѕС‡РєРё 'Р‘':\t " << A.distance(B) << endl;
 	cout << delimiter << endl;
-	cout << "расстояние от точки 'Б' до точки 'А':\t " << B.distance(A) << endl;
+	cout << "СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё 'Р‘' РґРѕ С‚РѕС‡РєРё 'Рђ':\t " << B.distance(A) << endl;
 	cout << delimiter << endl;
-	cout << "расстояние от точки 'А' до точки 'Б':\t " << distance(A, B) << endl;
+	cout << "СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё 'Рђ' РґРѕ С‚РѕС‡РєРё 'Р‘':\t " << distance(A, B) << endl;
 	cout << delimiter << endl;
-	cout << "расстояние от точки 'Б' до точки 'А':\t " << distance(B, A) << endl;
+	cout << "СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё 'Р‘' РґРѕ С‚РѕС‡РєРё 'Рђ':\t " << distance(B, A) << endl;
 	cout << delimiter << endl;
 #endif // DISTANCE_CHECK
 	
@@ -139,7 +139,7 @@ void main()
 	Point A;// default constructor
 	A.print();
 
-	Point B = 5; //Single-argument constructor, конструктор с 1м параметром
+	Point B = 5; //Single-argument constructor, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ 1Рј РїР°СЂР°РјРµС‚СЂРѕРј
 	B.print();
 	Point C(2, 3);
 	C.print();
