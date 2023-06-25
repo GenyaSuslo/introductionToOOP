@@ -120,12 +120,12 @@ public:
 		this->y /= other.get_y();
 		return *this;
 	}
-	Point& operator%=(const Point& other)
+	/*Point& operator%=(const Point& other)
 	{
-			this->x %= other.get_x(),
+			this->x %= other.get_x(), //говорит нельзя, потому что тип double
 			this->y %= other.get_y()
 		return *this;
-	}
+	}*/
 
 
 
