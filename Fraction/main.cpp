@@ -103,14 +103,14 @@ public:
 		else if (integer == 0)cout << 0;
 		cout << endl;
 	}
-	void to_proper(const Fraction& other)
+	/*void to_proper(const Fraction& other)
 	{
 		
 		if (numerator > denominator)
 		{
 			this->integer = this->integer + (this->numerator - (this->numerator % this->denominator) / this->denominator);
 		}
-		cout << other.print;
+		cout << other.print();
 
 	}
 	void to_improper()
@@ -120,7 +120,7 @@ public:
 
 		}
 
-	}
+	}*/
 };
 
 //#define CONSTRUCTORS_CHECK
