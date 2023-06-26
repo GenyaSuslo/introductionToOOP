@@ -1,13 +1,13 @@
-#include<iostream>
+п»ї#include<iostream>
 
 using namespace std;
 
 class Fraction
 {
 	//Data
-	int integer; //целая часть
-	int numerator; // числитель
-	int denominator; //знаменатель
+	int integer; //С†РµР»Р°СЏ С‡Р°СЃС‚СЊ
+	int numerator; // С‡РёСЃР»РёС‚РµР»СЊ
+	int denominator; //Р·РЅР°РјРµРЅР°С‚РµР»СЊ
 
 public:
 	int get_integer()const
@@ -61,11 +61,11 @@ public:
 		set_denominator(denominator);
 		cout << "SinglArgConstructor: " << this << endl;
 	}
-	Fraction(int integer, int numerator, int denominator)//конструкторы равнозначны
+	Fraction(int integer, int numerator, int denominator)//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ СЂР°РІРЅРѕР·РЅР°С‡РЅС‹
 	{
 		this->integer = integer;
 		this->numerator = numerator;
-		set_denominator(denominator);//так как могут написать 0, сразу вызываем функцию с условием защиты
+		set_denominator(denominator);//С‚Р°Рє РєР°Рє РјРѕРіСѓС‚ РЅР°РїРёСЃР°С‚СЊ 0, СЃСЂР°Р·Сѓ РІС‹Р·С‹РІР°РµРј С„СѓРЅРєС†РёСЋ СЃ СѓСЃР»РѕРІРёРµРј Р·Р°С‰РёС‚С‹
 		cout << "TripleConstructor: \t " << this << endl;
 	}
 	Fraction(const Fraction& other)
@@ -93,7 +93,7 @@ public:
 	//Methods
 	void print()const
 	{
-		if (integer)cout << integer;//если есть целая часть выводим ее на экран
+		if (integer)cout << integer;//РµСЃР»Рё РµСЃС‚СЊ С†РµР»Р°СЏ С‡Р°СЃС‚СЊ РІС‹РІРѕРґРёРј РµРµ РЅР° СЌРєСЂР°РЅ
 		if (numerator)
 		{
 			if (integer)cout << "(";
@@ -111,16 +111,16 @@ public:
 			this->integer = get_integer() + ((get_numerator() - (get_numerator() % get_denominator() ))/ get_denominator());
 			this->numerator = get_numerator() % get_denominator();
 		}
-		else cout << "дробь правильная";
+		else cout << "РґСЂРѕР±СЊ РїСЂР°РІРёР»СЊРЅР°СЏ";
 		
 	}
 	void to_improper(const Fraction& other)
 	{
 		if (integer)
 		{
-			this->numerator += get_integer() * get_denominator();
+			this->numerator = get_numerator() + get_integer() * get_denominator();
 		}
-		else cout << "нет целой части";
+		else cout << "РЅРµС‚ С†РµР»РѕР№ С‡Р°СЃС‚Рё";
 	}
 };
 
