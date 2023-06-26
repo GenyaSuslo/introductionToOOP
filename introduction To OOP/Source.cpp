@@ -204,9 +204,9 @@ Point operator/(const Point& left, const Point& right)
 //	);
 //};
 
-void operator<<(ostream& os, const Point& obj)
+ostream& operator<<(ostream& os, const Point& obj)
 {
-	os << "X= " << obj.get_x() << "\tY= " << obj.get_y();
+	return os << "X= " << obj.get_x() << "\tY= " << obj.get_y();
 }
 
 //#define STRUCT_POINT
@@ -298,9 +298,9 @@ void main()
 	Point B(7, 8);
 	B.print();
 
-	A/=B;
+	A+=B;
 	A.print();
-	cout << typeid(cout).name() << endl << endl;
-	cout << A;
+	//cout << typeid(cout).name() << endl;
+	cout << A << endl;
 
 }
