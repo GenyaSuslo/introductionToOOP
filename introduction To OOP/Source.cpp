@@ -206,7 +206,7 @@ Point operator/(const Point& left, const Point& right)
 
 ostream& operator<<(ostream& os, const Point& obj)
 {
-	return os << "X= " << obj.get_x() << "\tY= " << obj.get_y();
+	return os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
 }
 
 //#define STRUCT_POINT
