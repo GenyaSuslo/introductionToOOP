@@ -1,13 +1,13 @@
-п»ї#include<iostream>
+#include<iostream>
 
 using namespace std;
 
 class Fraction
 {
 	//Data
-	int integer; //С†РµР»Р°СЏ С‡Р°СЃС‚СЊ
-	int numerator; // С‡РёСЃР»РёС‚РµР»СЊ
-	int denominator; //Р·РЅР°РјРµРЅР°С‚РµР»СЊ
+	int integer; //целая часть
+	int numerator; // числитель
+	int denominator; //знаменатель
 
 public:
 	int get_integer()const
@@ -61,11 +61,11 @@ public:
 		set_denominator(denominator);
 		cout << "SinglArgConstructor: " << this << endl;
 	}
-	Fraction(int integer, int numerator, int denominator)//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ СЂР°РІРЅРѕР·РЅР°С‡РЅС‹
+	Fraction(int integer, int numerator, int denominator)//конструкторы равнозначны
 	{
 		this->integer = integer;
 		this->numerator = numerator;
-		set_denominator(denominator);//С‚Р°Рє РєР°Рє РјРѕРіСѓС‚ РЅР°РїРёСЃР°С‚СЊ 0, СЃСЂР°Р·Сѓ РІС‹Р·С‹РІР°РµРј С„СѓРЅРєС†РёСЋ СЃ СѓСЃР»РѕРІРёРµРј Р·Р°С‰РёС‚С‹
+		set_denominator(denominator);//так как могут написать 0, сразу вызываем функцию с условием защиты
 		cout << "TripleConstructor: \t " << this << endl;
 	}
 	Fraction(const Fraction& other)
@@ -93,7 +93,7 @@ public:
 	//Methods
 	void print()const
 	{
-		if (integer)cout << integer;//РµСЃР»Рё РµСЃС‚СЊ С†РµР»Р°СЏ С‡Р°СЃС‚СЊ РІС‹РІРѕРґРёРј РµРµ РЅР° СЌРєСЂР°РЅ
+		if (integer)cout << integer;//если есть целая часть выводим ее на экран
 		if (numerator)
 		{
 			if (integer)cout << "(";
@@ -103,31 +103,32 @@ public:
 		else if (integer == 0)cout << 0;
 		cout << endl;
 	}
-	/*void to_proper(const Fraction& other)
+	void to_proper(const Fraction& other)
 	{
 		
 		if (numerator > denominator)
 		{
-			this->integer = this->integer + (this->numerator - (this->numerator % this->denominator) / this->denominator);
+			this->integer = get_integer() + ((get_numerator() - (get_numerator() % get_denominator() ))/ get_denominator());
+			this->numerator = get_numerator() % get_denominator();
 		}
-		cout << other.print();
-
+		else cout << "дробь правильная";
+		
 	}
-	void to_improper()
+	void to_improper(const Fraction& other)
 	{
 		if (integer)
 		{
-
+			this->numerator += get_integer() * get_denominator();
 		}
-
-	}*/
+		else cout << "нет целой части";
+	}
 };
 
 //#define CONSTRUCTORS_CHECK
 
 void main()
 {
-	setlocale(0, " ");
+	setlocale(LC_ALL, " ");
 
 #ifdef CONSTRUCTORS_CHECK
 	Fraction A;//default constructor
@@ -154,6 +155,7 @@ void main()
 #endif CONSTRUCTORS_CHECK
 
 	Fraction A(2, 23, 7);
+	A.to_proper();
 	A.print();
 
 
