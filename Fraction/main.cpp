@@ -103,7 +103,7 @@ public:
 		else if (integer == 0)cout << 0;
 		cout << endl;
 	}
-	void to_proper(const Fraction& other)
+	void to_proper()
 	{
 		
 		if (numerator > denominator)
@@ -114,11 +114,12 @@ public:
 		else cout << "дробь правильная";
 		
 	}
-	void to_improper(const Fraction& other)
+	void to_improper()
 	{
 		if (integer)
 		{
 			this->numerator = get_numerator() + get_integer() * get_denominator();
+			this->integer = 0;
 		}
 		else cout << "нет целой части";
 	}
@@ -157,6 +158,9 @@ void main()
 	Fraction A(2, 23, 7);
 	A.to_proper();
 	A.print();
+	Fraction B(2, 2, 7);
+	B.to_improper();
+	B.print();
 
 
 }
