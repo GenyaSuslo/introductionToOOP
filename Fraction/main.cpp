@@ -153,7 +153,7 @@ public:
 	void reduce()
 	{
 		int del;
-		while (numerator != denominator)// 27/9
+		while (numerator != denominator)
 		{
 			if (numerator > denominator)
 			{
