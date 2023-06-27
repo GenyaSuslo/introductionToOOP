@@ -90,6 +90,33 @@ public:
 		cout << "CopyAssignment:" << this << endl;
 		return *this;
 	}
+	Fraction& operator++()//перфиксный инкремент
+	{
+		integer++;
+		return *this;
+	}
+	Fraction& operator++(int)// постфиксный инкремент
+	{
+		Fraction old = *this;
+		integer++;
+		return *this;
+	}
+	Fraction& operator--()//перфиксный декремент
+	{
+		integer--;
+		return *this;
+	}
+	Fraction& operator--(int)// постфиксный декремент
+	{
+		Fraction old = *this;
+		integer--;
+		return *this;
+	}
+	Fraction& operator+=(const Fraction other)
+	{
+		
+	}
+
 	//Methods
 	void print()const
 	{
@@ -108,8 +135,8 @@ public:
 		
 		if (numerator > denominator)
 		{
-			this->integer = get_integer() + ((get_numerator() - (get_numerator() % get_denominator() ))/ get_denominator());
-			this->numerator = get_numerator() % get_denominator();
+			this->integer = integer + ((numerator - (numerator % denominator ))/ denominator);
+			this->numerator = numerator % denominator;
 		}
 		else cout << "дробь правильная";
 		
@@ -118,11 +145,32 @@ public:
 	{
 		if (integer)
 		{
-			this->numerator = get_numerator() + get_integer() * get_denominator();
+			this->numerator = numerator + integer * denominator;
 			this->integer = 0;
 		}
 		else cout << "нет целой части";
 	}
+	void reduce()
+	{
+		int del;
+		while (numerator != denominator)// 27/9
+		{
+			if (numerator > denominator)
+			{
+				numerator -= denominator;
+				del = numerator;
+			}
+			else if (denominator > numerator)
+			{
+				denominator -= numerator;
+				del = denominator;
+			}
+			else cout << "нет НОД";
+		}
+		this-> numerator/del;
+		this->denominator / del;
+	}
+		
 };
 
 //#define CONSTRUCTORS_CHECK
@@ -161,6 +209,11 @@ void main()
 	Fraction B(2, 2, 7);
 	B.to_improper();
 	B.print();
+	B.to_proper();
+	B.print();
+	Fraction C(2, 12, 49);
+	C.reduce();
+	C.print();
 
 
 }
