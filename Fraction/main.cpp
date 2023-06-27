@@ -150,7 +150,7 @@ public:
 		}
 		else cout << "нет целой части";
 	}
-	void reduce()
+	void reduce() //работатет только если есть общий делитель, дальше не хватило сил
 	{
 		int del;
 		while (numerator != denominator)
