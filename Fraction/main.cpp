@@ -115,10 +115,6 @@ public:
 		integer--;
 		return *this;
 	}
-	Fraction& operator+=(const Fraction& other)
-	{
-		return *this = *this * other;
-	}
 
 							//Methods
 
@@ -222,7 +218,7 @@ Fraction operator*(Fraction left, Fraction right)//передача по зна�
 		left.get_numerator() * right.get_numerator(),
 		left.get_denominator() * right.get_denominator()
 	).to_proper();
-};
+}
 //Fraction operator/( Fraction left, Fraction right)
 //{
 //	left.to_improper();//перевели в неправильные дроби
@@ -232,12 +228,43 @@ Fraction operator*(Fraction left, Fraction right)//передача по зна�
 //		left.get_numerator() * right.get_denominator(),
 //		left.get_denominator() * right.get_numerator()
 //	).to_proper();
-//};
+//}
 
 Fraction operator/(const Fraction& left, const Fraction& right)
 {
 	return left * right.inverted();
 }
+Fraction GCD(Fraction left, Fraction right)
+{
+	int a = left.get_denominator(), b = right.get_denominator();
+	if ( a< b)
+	{
+		swap(a, b);
+	}
+	while (a % b != 0) {
+		a = a % b;
+		swap(a, b);
+	}
+	return b;
+}
+Fraction NOK(Fraction left, Fraction right)
+{
+	int a = left.get_denominator(), b = right.get_denominator(),NOK;
+	return a*b/GCD(left, right);
+}
+Fraction& operator+(Fraction& left, Fraction& right)
+{
+	left.to_improper();
+	right.to_improper();
+
+	return Fraction
+	(
+		left.get_numerator() * (left.get_denominator() / NOK(left, right)) + right.get_numerator() * (right.get_denominator() / NOK(left, right)),
+		left.get_denominator() = NOK(left, right)
+	).to_proper();
+
+}
+
 
 
 //#define CONSTRUCTORS_CHECK
