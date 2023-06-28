@@ -2,6 +2,9 @@
 
 using namespace std;
 
+class Fraction;
+Fraction operator*(Fraction left, Fraction right);
+
 class Fraction
 {
 	//Data
@@ -38,7 +41,7 @@ public:
 	}
 
 	//			Constructors
-	Fraction()
+	Fraction() //конструктор по умолчанию
 	{
 		this->integer = 0;
 		this->numerator = 0;
@@ -46,7 +49,7 @@ public:
 		cout << "DefaultConstructor: " << this << endl;
 	}
 
-	Fraction(int integer)
+	Fraction(int integer) //конструктор который принимает 1 параметр
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -54,7 +57,7 @@ public:
 		cout << "1ArgConstructor: " << this << endl;
 
 	}
-	Fraction(int numerator, int denominator)
+	Fraction(int numerator, int denominator)//конструктор который принимает 2 параметра
 	{
 		this->integer = 0;
 		this->numerator = numerator;
@@ -68,7 +71,7 @@ public:
 		set_denominator(denominator);//так как могут написать 0, сразу вызываем функцию с условием защиты
 		cout << "TripleConstructor: \t " << this << endl;
 	}
-	Fraction(const Fraction& other)
+	Fraction(const Fraction& other)// конструктор копирования
 	{
 		this->integer = other.integer;
 		this->numerator = other.numerator;
@@ -82,7 +85,7 @@ public:
 
 
 	//Operators
-	Fraction& operator=(const Fraction& other)
+	Fraction& operator=(const Fraction& other)// конструктор присваивания
 	{
 		this->integer = other.integer;
 		this->numerator = other.numerator;
@@ -112,12 +115,13 @@ public:
 		integer--;
 		return *this;
 	}
-	Fraction& operator+=(const Fraction other)
+	Fraction& operator+=(const Fraction& other)
 	{
-		
+		return *this = *this * other;
 	}
 
-	//Methods
+							//Methods
+
 	void print()const
 	{
 		if (integer)cout << integer;//если есть целая часть выводим ее на экран
@@ -130,18 +134,18 @@ public:
 		else if (integer == 0)cout << 0;
 		cout << endl;
 	}
-	void to_proper()
+	/*void to_proper()
 	{
-		
+
 		if (numerator > denominator)
 		{
 			this->integer = integer + ((numerator - (numerator % denominator ))/ denominator);
 			this->numerator = numerator % denominator;
 		}
 		else cout << "дробь правильная";
-		
-	}
-	void to_improper()
+
+	}*/
+	/*void to_improper()
 	{
 		if (integer)
 		{
@@ -149,29 +153,92 @@ public:
 			this->integer = 0;
 		}
 		else cout << "нет целой части";
-	}
-	void reduce() //работатет только если есть общий делитель, дальше не хватило сил
+	}*/
+	Fraction& to_improper()//делает неправильную дробь
 	{
-		int del;
-		while (numerator != denominator)
-		{
-			if (numerator > denominator)
-			{
-				numerator -= denominator;
-				del = numerator;
-			}
-			else if (denominator > numerator)
-			{
-				denominator -= numerator;
-				del = denominator;
-			}
-			else cout << "нет НОД";
-		}
-		this-> numerator/del;
-		this->denominator / del;
+		numerator += integer * denominator;
+		integer = 0;
+		return *this;
 	}
-		
+	Fraction& to_proper()//делает дробь правильную
+	{
+		integer += numerator / denominator;
+		numerator %= denominator;
+		return *this;
+	}
+
+	Fraction inverted()const
+	{
+		Fraction inverted = *this;
+		inverted.to_improper();
+		std::swap(inverted.numerator, inverted.denominator);
+		return inverted;
+	}
+	/*Fraction operator *=(Fraction right)
+	{
+		this->to_improper();
+		right.to_improper();
+		Fraction result
+		(
+			this->get_numerator() * right.get_numerator(),
+			this->get_denominator() * right.get_denominator()
+		);
+		return result;
+
+	}*/
+
+	Fraction& operator*=(const Fraction& other)
+	{
+		return *this = *this * other;
+	}
+	//void reduce() //работает только если есть общий делитель, дальше не хватило сил
+	//{
+	//	int del;
+	//	while (numerator != denominator)
+	//	{
+	//		if (numerator > denominator)
+	//		{
+	//			numerator -= denominator;
+	//			del = numerator;
+	//		}
+	//		else if (denominator > numerator)
+	//		{
+	//			denominator -= numerator;
+	//			del = denominator;
+	//		}
+	//		else cout << "нет НОД";
+	//	}
+	//	this-> numerator/del;
+	//	this->denominator / del;
+	//}
+
 };
+Fraction operator*(Fraction left, Fraction right)//передача по значению сразу скопировала объекты в функцию и их можно изменять
+{
+	left.to_improper();//перевели в неправильные дроби
+	right.to_improper();
+	return Fraction
+	(
+		left.get_numerator() * right.get_numerator(),
+		left.get_denominator() * right.get_denominator()
+	).to_proper();
+};
+//Fraction operator/( Fraction left, Fraction right)
+//{
+//	left.to_improper();//перевели в неправильные дроби
+//	right.to_improper();
+//	return Fraction
+//	(
+//		left.get_numerator() * right.get_denominator(),
+//		left.get_denominator() * right.get_numerator()
+//	).to_proper();
+//};
+
+Fraction operator/(const Fraction& left, const Fraction& right)
+{
+	return left * right.inverted();
+}
+
 
 //#define CONSTRUCTORS_CHECK
 
@@ -203,17 +270,22 @@ void main()
 	F.print();
 #endif CONSTRUCTORS_CHECK
 
-	Fraction A(2, 23, 7);
-	A.to_proper();
+	Fraction A(2, 3, 4);
 	A.print();
-	Fraction B(2, 2, 7);
-	B.to_improper();
+	Fraction B(3, 4, 5);
 	B.print();
-	B.to_proper();
-	B.print();
-	Fraction C(2, 12, 49);
-	C.reduce();
+
+	A.to_improper();
+	A.print();
+
+	/*Fraction C = A * B;
 	C.print();
+
+	Fraction D = A / B;
+	D.print();*/
+	A *= B;
+	A.print();
+
 
 
 }
