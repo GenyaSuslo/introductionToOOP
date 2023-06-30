@@ -116,7 +116,28 @@ public:
 		return *this;
 	}
 
-							//Methods
+	//Methods
+
+	Fraction& reduce()
+	{
+		/*int more, less, rest;
+		if (numerator > denomenator) more = numerator, less = denominator;
+		else less = numerator, more = denominator;*/
+		to_improper();
+		int less = numerator;
+		int more = denominator;
+		int rest;
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+		} while (rest);
+		int GSD = more;//GSD-Greatest Common Divisor наибольший общий делитель
+		numerator /= GSD;
+		denominator /= GSD;
+		return *this;
+	}
 
 	void print()const
 	{
@@ -217,7 +238,7 @@ Fraction operator*(Fraction left, Fraction right)//передача по зна�
 	(
 		left.get_numerator() * right.get_numerator(),
 		left.get_denominator() * right.get_denominator()
-	).to_proper();
+	).to_proper().reduce();
 }
 //Fraction operator/( Fraction left, Fraction right)
 //{
@@ -300,10 +321,27 @@ bool  operator<=(const Fraction left, const Fraction right)//когда вызы
 }
 
 
+std::ostream& operator<<(std::ostream& os, const Fraction& obj)
+{
+
+	if (obj.get_integer())os << obj.get_integer();//если есть целая часть выводим ее на экран
+	if (obj.get_numerator())
+	{
+		if (obj.get_integer())os << "(";
+		cout << obj.get_numerator() << "/" << obj.get_denominator();
+		if (obj.get_integer())os << ")";
+	}
+	else if (obj.get_integer() == 0)os << 0;
+	return os;
+}
+
+
+
 
 
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
+
 void main()
 {
 	setlocale(LC_ALL, " ");
@@ -350,10 +388,20 @@ void main()
 	A.print();
 #endif ARITHMETICAL_OPERATORS_CHECK
 
-	Fraction A(1, 3);
+	/*Fraction A(1, 3);
 	Fraction B(5, 10);
 
-	cout << (A<=B) << endl;
+	cout << (A<=B) << endl;*/
+
+	/*Fraction A(840, 3600);
+	A.print();
+	A.reduce();
+	A.print();*/
+
+	Fraction A(5, 10);
+	cout << A << endl;
+	A.reduce();
+	cout << A << endl;
 
 
 }
