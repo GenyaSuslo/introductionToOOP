@@ -234,41 +234,76 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 {
 	return left * right.inverted();
 }
-Fraction GCD(Fraction left, Fraction right)
-{
-	int a = left.get_denominator(), b = right.get_denominator();
-	if ( a< b)
-	{
-		swap(a, b);
-	}
-	while (a % b != 0) {
-		a = a % b;
-		swap(a, b);
-	}
-	return b;
-}
-Fraction NOK(Fraction left, Fraction right)
-{
-	int a = left.get_denominator(), b = right.get_denominator(),NOK;
-	return a*b/GCD(left, right);
-}
-Fraction& operator+(Fraction& left, Fraction& right)
+//Fraction GCD(Fraction left, Fraction right)
+//{
+//	int a = left.get_denominator(), b = right.get_denominator();
+//	if ( a< b)
+//	{
+//		swap(a, b);
+//	}
+//	while (a % b != 0) {
+//		a = a % b;
+//		swap(a, b);
+//	}
+//	return b;
+//}
+//Fraction NOK(Fraction left, Fraction right)
+//{
+//	int a = left.get_denominator(), b = right.get_denominator(),NOK;
+//	return a*b/GCD(left, right);
+//}
+//Fraction& operator+(Fraction& left, Fraction& right)
+//{
+//	left.to_improper();
+//	right.to_improper();
+//
+//	return Fraction
+//	(
+//		left.get_numerator() * (left.get_denominator() / NOK(left, right)) + right.get_numerator() * (right.get_denominator() / NOK(left, right)),
+//		left.get_denominator() = NOK(left, right)
+//	).to_proper();
+//
+//}
+bool operator==(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
-
-	return Fraction
-	(
-		left.get_numerator() * (left.get_denominator() / NOK(left, right)) + right.get_numerator() * (right.get_denominator() / NOK(left, right)),
-		left.get_denominator() = NOK(left, right)
-	).to_proper();
-
+	/*if (left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator())
+		return true;
+	else
+		return false;*/
+	return left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator();
 }
+bool operator!=(const Fraction left, const Fraction right)
+{
+	return !(left == right);
+}
+bool operator>(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() > right.get_numerator() * left.get_denominator();
+}bool operator<(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() < right.get_numerator() * left.get_denominator();
+}
+bool operator>=(const Fraction left, const Fraction right)
+{
+	//return left > right || left == right;
+	return !(left < right);
+}
+bool  operator<=(const Fraction left, const Fraction right)//когда вызывыаем готовю функцию берем значение по константной ссылке
+{
+	return!(left > right);
+}
+
 
 
 
 //#define CONSTRUCTORS_CHECK
-
+//#define ARITHMETICAL_OPERATORS_CHECK
 void main()
 {
 	setlocale(LC_ALL, " ");
@@ -296,6 +331,7 @@ void main()
 	F = D;
 	F.print();
 #endif CONSTRUCTORS_CHECK
+#ifdef ARITHMETICAL_OPERATORS_CHECK
 
 	Fraction A(2, 3, 4);
 	A.print();
@@ -312,7 +348,12 @@ void main()
 	D.print();*/
 	A *= B;
 	A.print();
+#endif ARITHMETICAL_OPERATORS_CHECK
 
+	Fraction A(1, 3);
+	Fraction B(5, 10);
+
+	cout << (A<=B) << endl;
 
 
 }
