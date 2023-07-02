@@ -125,7 +125,7 @@ public:
 		/*int more, less, rest;
 		if (numerator > denomenator) more = numerator, less = denominator;
 		else less = numerator, more = denominator;*/
-		to_improper();
+		to_proper();
 		int less = numerator;
 		int more = denominator;
 		int rest;
@@ -138,7 +138,6 @@ public:
 		int GSD = more;//GSD-Greatest Common Divisor наибольший общий делитель
 		numerator /= GSD;
 		denominator /= GSD;
-		to_proper();
 		return *this;
 	}
 
@@ -364,16 +363,31 @@ std::ostream& operator<<(std::ostream& os, const Fraction& obj)
 	return os;
 }
 
+std::istream& operator>>(std::istream& in, Fraction& obj)
+{
+	int integer, numerator, denominator;
+
+	in >> integer >> numerator >> denominator;
+
+	obj.set_integer(integer);
+	obj.set_numerator(numerator);
+	obj.set_denominator(denominator);
+
+	return in;
+
+}
+
+
 
 
 
 
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
-
+//#define COMPARISON_OPERSTOR_CHECK
 void main()
 {
-	setlocale(LC_ALL, " ");
+	setlocale(LC_ALL, "ru");
 
 #ifdef CONSTRUCTORS_CHECK
 	Fraction A;//default constructor
@@ -417,16 +431,17 @@ void main()
 	A.print();
 #endif ARITHMETICAL_OPERATORS_CHECK
 
-	/*Fraction A(1, 3);
+#ifdef COMPARISON_OPERSTOR_CHECK
+	Fraction A(1, 3);
 	Fraction B(5, 10);
 
-	cout << (A<=B) << endl;*/
+	cout << (A<=B) << endl;
+#endif COMPARISON_OPERSTOR_CHECK
 
 	/*Fraction A(840, 3600);
 	A.print();
 	A.reduce();
 	A.print();*/
-
 	/*Fraction A(5, 10);
 	cout << A << endl;
 	A.reduce();
@@ -439,6 +454,9 @@ void main()
 	A.print(); B.print(); D.print();
 	A += B;
 	A.print();
+	cout << typeid(cin).name() << endl;
 
-
+	cout << "введите правильную дробь: " << endl;
+	cin >> D;
+	D.print();
 }
