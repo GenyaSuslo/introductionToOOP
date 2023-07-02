@@ -4,7 +4,9 @@ using namespace std;
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
-
+Fraction& operator+(Fraction left, Fraction right);
+Fraction& operator-(Fraction left, Fraction right);
+Fraction operator/(const Fraction& left, const Fraction& right);
 class Fraction
 {
 	//Data
@@ -136,6 +138,7 @@ public:
 		int GSD = more;//GSD-Greatest Common Divisor наибольший общий делитель
 		numerator /= GSD;
 		denominator /= GSD;
+		to_proper();
 		return *this;
 	}
 
@@ -229,6 +232,19 @@ public:
 	//	this->denominator / del;
 	//}
 
+	Fraction& operator/=(const Fraction& other)
+	{
+		return *this = *this / other;
+	}
+	Fraction& operator+=(const Fraction& other)
+	{
+		return *this = *this + other;
+	}
+	Fraction& operator -=(const Fraction& other)
+	{
+		return *this = *this - other;
+	}
+
 };
 Fraction operator*(Fraction left, Fraction right)//передача по значению сразу скопировала объекты в функцию и их можно изменять
 {
@@ -273,18 +289,30 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 //	int a = left.get_denominator(), b = right.get_denominator(),NOK;
 //	return a*b/GCD(left, right);
 //}
-//Fraction& operator+(Fraction& left, Fraction& right)
-//{
-//	left.to_improper();
-//	right.to_improper();
-//
-//	return Fraction
-//	(
-//		left.get_numerator() * (left.get_denominator() / NOK(left, right)) + right.get_numerator() * (right.get_denominator() / NOK(left, right)),
-//		left.get_denominator() = NOK(left, right)
-//	).to_proper();
-//
-//}
+Fraction& operator+(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		left.get_numerator() * left.get_denominator() + right.get_numerator() * right.get_denominator(),
+		left.get_denominator() * right.get_denominator()
+	).to_proper().reduce();
+}
+
+Fraction& operator-(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		left.get_numerator() * right.get_denominator() - right.get_numerator() * left.get_denominator(),
+		left.get_denominator() * right.get_denominator()
+
+	).to_proper().reduce();
+
+}
+
 bool operator==(Fraction left, Fraction right)
 {
 	left.to_improper();
@@ -304,6 +332,7 @@ bool operator>(Fraction left, Fraction right)
 	left.to_improper();
 	right.to_improper();
 	return left.get_numerator() * right.get_denominator() > right.get_numerator() * left.get_denominator();
+
 }bool operator<(Fraction left, Fraction right)
 {
 	left.to_improper();
@@ -398,10 +427,18 @@ void main()
 	A.reduce();
 	A.print();*/
 
-	Fraction A(5, 10);
+	/*Fraction A(5, 10);
 	cout << A << endl;
 	A.reduce();
-	cout << A << endl;
+	cout << A << endl;*/
+
+	Fraction A(3, 15, 23);
+	Fraction B(2, 12, 15);
+	
+	Fraction D;
+	A.print(); B.print(); D.print();
+	A += B;
+	A.print();
 
 
 }
