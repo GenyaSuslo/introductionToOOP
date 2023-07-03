@@ -1,4 +1,6 @@
-﻿#include<iostream>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+
 
 using namespace std;
 
@@ -123,12 +125,13 @@ public:
 	Fraction& reduce()
 	{
 		/*int more, less, rest;
-		if (numerator > denomenator) more = numerator, less = denominator;
+		if (numerator > denominator) more = numerator, less = denominator;
 		else less = numerator, more = denominator;*/
 		to_proper();
 		int less = numerator;
 		int more = denominator;
 		int rest;
+		if (less == 0)return *this;
 		do
 		{
 			rest = more % less;
@@ -363,17 +366,53 @@ std::ostream& operator<<(std::ostream& os, const Fraction& obj)
 	return os;
 }
 
-std::istream& operator>>(std::istream& in, Fraction& obj)
+std::istream& operator>>(std::istream& is, Fraction& obj)
 {
-	int integer, numerator, denominator;
+	/*
+	----------------------------------------
+	5
+	1/2
+	2 3/4
+	2(3/4)
+	----------------------------------------
+	*/
 
-	in >> integer >> numerator >> denominator;
+	/*int integer, numerator, denominator;
+
+	is >> integer >> numerator >> denominator;
 
 	obj.set_integer(integer);
 	obj.set_numerator(numerator);
-	obj.set_denominator(denominator);
-
-	return in;
+	obj.set_denominator(denominator);*/
+	const int SIZE = 256;
+	char buffer[SIZE] = {};
+	is >> buffer;
+	//is.getline(buffer,SIZE);
+	int number[3] = {};
+	int n = 0;//счетчик полученных(введенных) чисел
+	char delimiters[] = "()/";
+	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+		number[n++] = std::atoi(pch);
+	//atoi() - ASCI-string to 'int'? принимает строку и возвращает целое число, которое содержится в этой строке
+	// 
+	//for (int i = 0; i < n; i++)cout << number[i] << "\t"; cout << endl;
+	switch (n)
+	{
+	case 1: obj.set_integer(number[0]); break;
+	case 2:
+		/*obj.set_numerator(number[0]);
+		obj.set_denominator(number[1]);*/ 
+		obj=Fraction(number[0], number[1]);
+		break;
+	case 3:
+		/*obj.set_integer(number[0]);
+		obj.set_numerator(number[1]);
+		obj.set_denominator(number[2]);*/ 
+		obj= Fraction(number[0], number[1], number[2]);
+		break;
+	
+	}
+	return is;
 
 }
 
@@ -384,7 +423,10 @@ std::istream& operator>>(std::istream& in, Fraction& obj)
 
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
-//#define COMPARISON_OPERSTOR_CHECK
+//#define COMPARISON_OPERATOR_CHECK
+//#define INPUT_CHECK_1
+#define INPUT_CHECK_2
+
 void main()
 {
 	setlocale(LC_ALL, "ru");
@@ -431,12 +473,12 @@ void main()
 	A.print();
 #endif ARITHMETICAL_OPERATORS_CHECK
 
-#ifdef COMPARISON_OPERSTOR_CHECK
+#ifdef COMPARISON_OPERATOR_CHECK
 	Fraction A(1, 3);
 	Fraction B(5, 10);
 
 	cout << (A<=B) << endl;
-#endif COMPARISON_OPERSTOR_CHECK
+#endif COMPARISON_OPERATOR_CHECK
 
 	/*Fraction A(840, 3600);
 	A.print();
@@ -447,16 +489,23 @@ void main()
 	A.reduce();
 	cout << A << endl;*/
 
-	Fraction A(3, 15, 23);
+	/*Fraction A(3, 15, 23);
 	Fraction B(2, 12, 15);
 	
-	Fraction D;
+	
 	A.print(); B.print(); D.print();
 	A += B;
 	A.print();
-	cout << typeid(cin).name() << endl;
-
+	cout << typeid(cin).name() << endl;*/
+	
+	#ifdef INPUT_CHECK_1
+	Fraction D;
 	cout << "введите правильную дробь: " << endl;
 	cin >> D;
+	D.reduce();
 	D.print();
+	#endif INPUT_CHECK_1
+	Fraction A, B, C;
+	cout << "введите три простые дроби: "; cin >> A >> B >> C;
+	cout << A << "\t" << B << "\t" << C << "\t" << endl;;
 }
