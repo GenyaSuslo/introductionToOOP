@@ -1,8 +1,8 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 
-
 using namespace std;
+#define delimeter "\n------------------------------------\n"
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
@@ -53,7 +53,7 @@ public:
 		cout << "DefaultConstructor: " << this << endl;
 	}
 
-	Fraction(int integer) //конструктор который принимает 1 параметр
+	explicit Fraction(int integer) //конструктор который принимает 1 параметр
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -97,7 +97,7 @@ public:
 		cout << "CopyAssignment:" << this << endl;
 		return *this;
 	}
-	Fraction& operator++()//перфиксный инкремент
+	Fraction& operator++()//префиксный инкремент
 	{
 		integer++;
 		return *this;
@@ -108,7 +108,7 @@ public:
 		integer++;
 		return *this;
 	}
-	Fraction& operator--()//перфиксный декремент
+	Fraction& operator--()//префиксный декремент
 	{
 		integer--;
 		return *this;
@@ -119,6 +119,13 @@ public:
 		integer--;
 		return *this;
 	}
+
+	//				Type-cast operators
+	operator int()
+	{
+		return integer;
+	}
+
 
 	//Methods
 
@@ -335,7 +342,8 @@ bool operator>(Fraction left, Fraction right)
 	right.to_improper();
 	return left.get_numerator() * right.get_denominator() > right.get_numerator() * left.get_denominator();
 
-}bool operator<(Fraction left, Fraction right)
+}
+bool operator<(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
@@ -425,7 +433,8 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define COMPARISON_OPERATOR_CHECK
 //#define INPUT_CHECK_1
-#define INPUT_CHECK_2
+//#define INPUT_CHECK_2
+//#define CONVERSIONS_FROM_OTHER_TO_CLASS
 
 void main()
 {
@@ -505,7 +514,28 @@ void main()
 	D.reduce();
 	D.print();
 	#endif INPUT_CHECK_1
+	#ifdef INPUT_CHECK_2
 	Fraction A, B, C;
 	cout << "введите три простые дроби: "; cin >> A >> B >> C;
-	cout << A << "\t" << B << "\t" << C << "\t" << endl;;
+	cout << A << "\t" << B << "\t" << C << "\t" << endl;
+	#endif INPUT_CHECK_2
+	#ifdef CONVERSIONS_FROM_OTHER_TO_CLASS
+	Fraction A = Fraction(5);
+	cout << A << endl;
+	cout << delimeter;
+	Fraction B; //default constructor
+	cout << delimeter;
+	B = Fraction(8);
+	cout << delimeter;
+	cout << B << endl;
+	//Fraction C(12); //explicit конструктор можно вызвать только так
+	Fraction C{ 12 }; //либо так
+	cout << C << endl;
+	#endif CONVERSIONS_FROM_OTHER_TO_CLASS
+	Fraction A(2, 1, 2);
+	cout << A << endl;
+	int a = A;
+	cout << a << endl;
+
+
 }
