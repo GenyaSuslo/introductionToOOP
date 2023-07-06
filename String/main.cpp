@@ -1,10 +1,10 @@
-#include<iostream>
+п»ї#include<iostream>
 using namespace std;
 
 class String
 {
-	int size; //размер указывать лучше в байтах
-	char* str; //адрес строки в динамической памяти
+	int size; //СЂР°Р·РјРµСЂ СѓРєР°Р·С‹РІР°С‚СЊ Р»СѓС‡С€Рµ РІ Р±Р°Р№С‚Р°С…
+	char* str; //Р°РґСЂРµСЃ СЃС‚СЂРѕРєРё РІ РґРёРЅР°РјРёС‡РµСЃРєРѕР№ РїР°РјСЏС‚Рё
 public:
 	//			Constructors
 
@@ -34,5 +34,6 @@ void main()
 
 	String str;
 	str.print();
+	
 
 }
