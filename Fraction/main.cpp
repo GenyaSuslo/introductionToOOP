@@ -11,7 +11,7 @@ Fraction& operator-(Fraction left, Fraction right);
 Fraction operator/(const Fraction& left, const Fraction& right);
 class Fraction
 {
-	//Data
+	//				Data
 	int integer; //целая часть
 	int numerator; // числитель
 	int denominator; //знаменатель
@@ -44,7 +44,7 @@ public:
 		this->denominator = denominator;
 	}
 
-	//			Constructors
+	//				Constructors
 	Fraction() //конструктор по умолчанию
 	{
 		this->integer = 0;
@@ -86,9 +86,21 @@ public:
 	{
 		cout << "Destructor: \t" << this << endl;
 	}
+	Fraction(double decimal)
+	{
+		decimal += 1e-10; //1е - это 10,10 в -10 степени это 0,0000000001, это мы прибавляем к дробному значению
+		//и закрываем 9 в периоде до значащих разрядов
+		integer = decimal;//е-это экспонента, а экспонента это основание системы счисления, такак как здесь 10, то система 10ная,
+		//а дальше мы работаем с колличеством разрядов
+		decimal -=integer;
+		denominator = 1e+9; //10 в 9 степени; точность всегда будет 9 знаков после запятой
+		numerator = decimal * denominator;
+		reduce();
+		cout << "1ArgDConstructor: /t" << this << endl;
+	}
 
 
-	//Operators
+	//				Operators
 	Fraction& operator=(const Fraction& other)// конструктор присваивания
 	{
 		this->integer = other.integer;
@@ -97,7 +109,7 @@ public:
 		cout << "CopyAssignment:" << this << endl;
 		return *this;
 	}
-	Fraction& operator++()//префиксный инкремент
+	Fraction& operator++() //префиксный инкремент
 	{
 		integer++;
 		return *this;
@@ -108,7 +120,7 @@ public:
 		integer++;
 		return *this;
 	}
-	Fraction& operator--()//префиксный декремент
+	Fraction& operator--() //префиксный декремент
 	{
 		integer--;
 		return *this;
@@ -121,13 +133,17 @@ public:
 	}
 
 	//				Type-cast operators
-	operator int()
+	explicit operator int() const
 	{
 		return integer;
 	}
+	explicit operator double() const
+	{
+		return integer+(double)numerator/denominator;
+	}
 
 
-	//Methods
+	//				Methods
 
 	Fraction& reduce()
 	{
@@ -435,7 +451,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define INPUT_CHECK_1
 //#define INPUT_CHECK_2
 //#define CONVERSIONS_FROM_OTHER_TO_CLASS
-
+//#define CONVERSION_FROM_CLASS_TO_OVER
 void main()
 {
 	setlocale(LC_ALL, "ru");
@@ -508,34 +524,46 @@ void main()
 	cout << typeid(cin).name() << endl;*/
 	
 	#ifdef INPUT_CHECK_1
-	Fraction D;
-	cout << "введите правильную дробь: " << endl;
-	cin >> D;
-	D.reduce();
-	D.print();
+		Fraction D;
+		cout << "введите правильную дробь: " << endl;
+		cin >> D;
+		D.reduce();
+		D.print();
 	#endif INPUT_CHECK_1
 	#ifdef INPUT_CHECK_2
-	Fraction A, B, C;
-	cout << "введите три простые дроби: "; cin >> A >> B >> C;
-	cout << A << "\t" << B << "\t" << C << "\t" << endl;
+		Fraction A, B, C;
+		cout << "введите три простые дроби: "; cin >> A >> B >> C;
+		cout << A << "\t" << B << "\t" << C << "\t" << endl;
 	#endif INPUT_CHECK_2
+
 	#ifdef CONVERSIONS_FROM_OTHER_TO_CLASS
-	Fraction A = Fraction(5);
-	cout << A << endl;
-	cout << delimeter;
-	Fraction B; //default constructor
-	cout << delimeter;
-	B = Fraction(8);
-	cout << delimeter;
-	cout << B << endl;
-	//Fraction C(12); //explicit конструктор можно вызвать только так
-	Fraction C{ 12 }; //либо так
-	cout << C << endl;
+		Fraction A = (Fraction)5;
+		cout << A << endl;
+		cout << delimeter;
+		Fraction B; //default constructor
+		cout << delimeter;
+		B = Fraction(8);
+		cout << delimeter;
+		cout << B << endl;
+		//Fraction C(12); //explicit конструктор можно вызвать только так
+		Fraction C{ 12 }; //либо так
+		cout << C << endl;
 	#endif CONVERSIONS_FROM_OTHER_TO_CLASS
-	Fraction A(2, 1, 2);
-	cout << A << endl;
-	int a = A;
-	cout << a << endl;
+	
+	#ifdef CONVERSION_FROM_CLASS_TO_OVER
+		Fraction A(2, 1, 2);
+		cout << A << endl;
+		int a = (int)A;
+		cout << a << endl;
 
-
+		Fraction B(2, 3, 4);
+		cout << B << endl;
+		double b = (double)B;
+		cout << b << endl;
+	#endif CONVERSION_FROM_CLASS_TO_OVER
+	
+		Fraction A = 2.77;
+		cout << A << endl;
+		Fraction B = 3.333;
+		cout << B << endl;
 }
