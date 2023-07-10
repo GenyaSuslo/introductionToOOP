@@ -83,7 +83,7 @@ public:
 		this->size = other.size;
 		this->str = other.str;
 		other.size = 0;
-		other.str = 0;
+		other.str = nullptr;
 		cout << "MoveAssigment:\t" << this << endl;
 		return *this;
 	}
