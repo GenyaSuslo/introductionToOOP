@@ -24,32 +24,34 @@ public:
 
 	//			Constructors
 
-	explicit String(int size = 80)
+	explicit String(int size = 80):size(size),str(new char[size]{})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;//равно size(size)
+		//this->str = new char[size] {}; //равно str(new char[size]{}
 		cout << "DefConstructor: \t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str): 
+		size(strlen(str)+1),
+		str(new char[size]{}) //конструктор для ввода строки
 	{
-		this->size = strlen(str) + 1;//strlen возвращает размер в символах, по этому +1,т.к. у нас в байтах
-		this->str = new char[size] {};
+		//this->size = strlen(str) + 1;//strlen возвращает размер в символах, по этому +1,т.к. у нас в байтах
+		//this->str = new char[size] {};
 		for (size_t i = 0; str[i]; i++)this->str[i] = str[i];
-		cout << "Constructor:\t" <<this <<endl;
+		cout << "SinglArgConstructor:\t" <<this <<endl;
 	}
-	String(const String& other)
+	String(const String& other): size(other.size),str(new char[size]{})
 	{
 		//DeepCopy
-		this->size = other.size;
-		this->str = new char[size] {};
+		//this->size = other.size;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor: \t" << this << endl;
 	}
-	String(String&& other)
+	String(String&& other): size(other.size), str(other.str)	//конструктор переноса
 	{
 		//Shaloow Copy
-		this->size = other.size;
-		this->str = other.str;
+		/*this->size = other.size;
+		this->str = other.str;*/
 		other.size = 0;
 		other.str = 0;
 		cout << "MoveConstructor: \t" << this << endl;
@@ -128,15 +130,17 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 {
 	return os << obj.get_str();
 }
-
+#define BASE_CHECK
+#define CALLING_CONSTRUCTORS
 void main()
 {
 	setlocale(LC_ALL, "");
 
+#ifdef BASE_CHECK
 	String str(5);
 	str.print();
 
-	String str1 = "Hello"; 
+	String str1 = "Hello";
 	str1 = str1;
 	cout << str1 << endl;
 
@@ -148,9 +152,14 @@ void main()
 	String str3 = str1 + str2;
 	cout << str3 << endl;
 	cout << delimeter << endl;
-	
+
 	String str4;
 	str4 = str1 + str2;
 	cout << str4 << endl;
+
+	String str5 = str4;
+	cout << str5 << endl;
+#endif  BASE_CHECK
+
 	
 }
