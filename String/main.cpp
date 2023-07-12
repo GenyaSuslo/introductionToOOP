@@ -26,25 +26,18 @@ public:
 
 	explicit String(int size = 80):size(size),str(new char[size]{})
 	{
-		//this->size = size;//равно size(size)
-		//this->str = new char[size] {}; //равно str(new char[size]{}
 		cout << "DefConstructor: \t" << this << endl;
 	}
-	String(const char* str): 
-		size(strlen(str)+1),
-		str(new char[size]{}) //конструктор для ввода строки
+	String(const char* str): String(strlen(str)+1) //конструктор для ввода строки
 	{
-		//this->size = strlen(str) + 1;//strlen возвращает размер в символах, по этому +1,т.к. у нас в байтах
-		//this->str = new char[size] {};
+		//strlen возвращает размер в символах, по этому +1,т.к. у нас в байтах
+		
 		for (size_t i = 0; str[i]; i++)this->str[i] = str[i];
 		cout << "SinglArgConstructor:\t" <<this <<endl;
 	}
-	String(const String& other): size(other.size),str(new char[size]{})
+	String(const String& other): String(other.size)
 	{
 		//DeepCopy
-		//this->size = other.size;
-		//this->str = new char[size] {};
-		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor: \t" << this << endl;
 	}
 	String(String&& other): size(other.size), str(other.str)	//конструктор переноса
@@ -67,7 +60,7 @@ public:
 
 	String& operator=(const String& other)
 	{
-		if (this == &other)return *this;
+		if (this == &other)return this;
 		delete[]this->str;
 		this->size = other.size;
 		this->str = new char[size] {};
