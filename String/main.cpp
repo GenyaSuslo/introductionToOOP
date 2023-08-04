@@ -30,7 +30,7 @@ public:
 		//this->str = new char[size] {}; //равно str(new char[size]{}
 		cout << "DefConstructor: \t" << this << endl;
 	}
-	String(const char* str): 
+	String(const char* str):  
 		size(strlen(str)+1),
 		str(new char[size]{}) //конструктор для ввода строки
 	{
