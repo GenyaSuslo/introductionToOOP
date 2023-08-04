@@ -29,13 +29,16 @@ public:
 	//			Methods
 	void print();
 };
-
-int get_size()const
+//:: Scope operator(оператор разрешения видимости)
+// открытие {} и закрытие скобок созадет область видимости и формирует пространство имен
+//scope::name
+//namespace::name  сначала название именного пространства и потом имя что хотим достатать
+int String::get_size()const
 {
 	return size;
 }
 
-const char* get_str()const
+const char* String::get_str()const
 {
 	return str;
 }
