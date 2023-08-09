@@ -42,30 +42,31 @@ const char* String::get_str()const
 {
 	return str;
 }
-char* get_str()
+char* String::get_str()
 {
 	return str;
 }
 
 //			Constructors
-
-explicit String(int size = 80) :size(size), str(new char[size] {})
+// при помощи explicit мы только объявляем метод
+// ключевое слово explicit можно использовать только внутри класса
+String::String(int size/* = 80*/) :size(size), str(new char[size] {})
 {
 	cout << "DefConstructor: \t" << this << endl;
 }
-String(const char* str) : String(strlen(str) + 1) //конструктор для ввода строки
+String::String(const char* str) : String(strlen(str) + 1) //конструктор для ввода строки
 {
 	//strlen возвращает размер в символах, по этому +1,т.к. у нас в байтах
 
 	for (size_t i = 0; str[i]; i++)this->str[i] = str[i];
 	cout << "SinglArgConstructor:\t" << this << endl;
 }
-String(const String& other) : String(other.size)
+String::String(const String& other) : String(other.size)
 {
 	//DeepCopy
 	cout << "CopyConstructor: \t" << this << endl;
 }
-String(String&& other) : size(other.size), str(other.str)	//конструктор переноса
+String::String(String&& other) : size(other.size), str(other.str)	//конструктор переноса
 {
 	//Shaloow Copy
 	/*this->size = other.size;
@@ -75,7 +76,7 @@ String(String&& other) : size(other.size), str(other.str)	//конструкто
 	cout << "MoveConstructor: \t" << this << endl;
 }
 
-~String()
+String::~String()
 {
 	delete[] str;
 	cout << "Destructor:\t" << this << endl;
@@ -83,7 +84,7 @@ String(String&& other) : size(other.size), str(other.str)	//конструкто
 
 //			Operators
 
-String& operator=(const String& other)
+String& String::operator=(const String& other)
 {
 	if (this == &other)return *this;
 	delete[]this->str;
@@ -96,7 +97,7 @@ String& operator=(const String& other)
 	return *this;
 }
 
-String& operator=(String&& other)
+String& String::operator=(String&& other)
 {
 	if (this == &other)return *this;
 	delete[] this->str;
@@ -107,21 +108,21 @@ String& operator=(String&& other)
 	cout << "MoveAssigment:\t" << this << endl;
 	return *this;
 }
-char& operator[](int i) const
+char String::operator[](int i) const
 {
 	return str[i];
 }
-char& operator[](int i)
+char& String::operator[](int i)
 {
 	return str[i];
 }
 //			Methods
-void print()
+void String::print()
 {
 	cout << "Size: \t" << size << endl;
 	cout << "Str:\t" << str << endl;
 }
-};
+
 
 //			Перегрузка за Классом
 
